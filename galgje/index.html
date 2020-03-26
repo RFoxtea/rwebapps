@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
+<title>GALGJE!</title>
+<style>
+body
+{
+	position:absolute;
+	margin:0cm 0cm 0cm 0cm;
+	font-family:"Arial";
+	min-width:900px;
+	min-height:500px;
+	width:100%;
+	height:100%;
+}
+
+.left
+{
+	position:absolute;
+	top:0px;
+	left:0px;
+    width:15%;
+	height:100%;
+	overflow:auto;
+}
+
+.right
+{
+	position:absolute;
+	top:0px;
+	left:85%;
+    width:15%;
+	height:100%;
+	font-size: 24px;
+}
+
+
+
+.bottomCenter
+{
+	position:absolute;
+	top:calc(100% - 100px);
+	height:100px;
+	width:calc(70% - 10px);
+	left:15%;
+	border-style:solid;
+	border-bottom-width:0px;
+	border-left-width:5px;
+	border-right-width:5px;
+	border-top-width:0px;
+}
+
+
+.topCenter
+{
+	height:calc(100% - 100px);
+	min-height:300px;
+	position:absolute;
+	width:calc(70% - 10px);
+	top:0px;
+	left:15%;
+	border-top-width:0px;
+	border-bottom-width:5px;
+	border-left-width:5px;
+	border-right-width:5px;
+	border-style:solid;
+}
+
+.letterSpace
+{
+	margin: auto;
+	left: 0; right: 0;
+	position:relative;
+	font-size:36px;
+	top:80%;
+	
+}
+
+.hangmanSpace
+{
+	margin: auto;
+	left: 0; right: 0;
+	position:absolute;
+	font-size:78px;
+	top:5%;
+}
+
+.hangmanSpace, img
+{
+	position:absolute;
+	height:85%;
+	width:auto;
+	left: 0; right: 0;
+	margin-left: auto;
+    margin-right: auto 
+}
+
+.popup {
+    width: 400px;
+    height: 100px;
+    background: #FFFFFF;
+    position: absolute;
+	border-style:solid;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+}
+
+.popCenter {
+	position: relative;
+	text-align: center;
+	top: calc(50% - 15px);
+}
+
+.popBottom {
+	position: absolute;
+	bottom: 5px;
+	right: 5px;
+}
+
+.bottomBorder {
+	overflow:auto;
+	height:auto;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	border-style:solid; 
+	border-width:0; 
+	border-bottom-width:5px;
+	line-height:150%;
+}
+
+.button	{
+	padding-top: 10px;
+	position: absolute;
+	width: calc(100% / 13 - 1px);
+	height: 39px;
+	text-align: center;
+	display:inline;
+	border-style:solid; 
+	border-width: 1px;
+	border-bottom-width: 0px;
+	font-weight:bold;
+	font-size: 20px;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+
+<div id="gameOptions" class="left">
+	<center> <div class="bottomBorder">
+	<font size="6">GALGJE!</font><br>
+	door <a href="..">Raf Vosté</a>
+	<br> 
+	<br> 
+	<button id="startGame" onclick="gameReset()">NEW GAME</button> 
+	<br> <br> <button id="classicw" onclick="setWords('words.txt'); buttonChanger('CLASSIC MODE');">CLASSIC MODE</button>
+	<br> <br> <button id="rafw" onclick="setWords('RAFwoorden.txt'); buttonChanger('RAF MODE');">RAF MODE</button>
+	<br> <br> <button id="deluxew" onclick="setWords('woorden.txt');  buttonChanger('DELUXE MODE');">DELUXE MODE</button>
+	<br> <br> <button id="customw" onclick="loadOpened(true);">CUSTOM FILE</button>
+	</div>
+	<div class="bottomBorder" STYLE="line-height:120%;" id="buttonInfo">
+	Welcome to <b>GALGJE!</b>
+	</div>
+	</center>
+</div>
+
+<div id="gameDisplay" class="topCenter">
+	<div class="letterSpace">
+		<center id="letterSpace"></center>
+	</div>
+	<div class="hangmanSpace">
+		<center id="hangmanPicPlace"><img id="hangmanPic" src="hangman00.gif" alt="HANGMAN"></center>
+	</div>
+</div>
+<div id="gameButtons" class="bottomCenter">
+	<div id="letterA" class="button" onclick="typeLetter('A')" style="left: calc(100% / 13 * 0); ">A</div>
+	<div id="letterB" class="button" onclick="typeLetter('B')" style="left: calc(100% / 13 * 1); ">B</div>
+	<div id="letterC" class="button" onclick="typeLetter('C')" style="left: calc(100% / 13 * 2); ">C</div>
+	<div id="letterD" class="button" onclick="typeLetter('D')" style="left: calc(100% / 13 * 3); ">D</div>
+	<div id="letterE" class="button" onclick="typeLetter('E')" style="left: calc(100% / 13 * 4); ">E</div>
+	<div id="letterF" class="button" onclick="typeLetter('F')" style="left: calc(100% / 13 * 5); ">F</div>
+	<div id="letterG" class="button" onclick="typeLetter('G')" style="left: calc(100% / 13 * 6); ">G</div>
+	<div id="letterH" class="button" onclick="typeLetter('H')" style="left: calc(100% / 13 * 7); ">H</div>
+	<div id="letterI" class="button" onclick="typeLetter('I')" style="left: calc(100% / 13 * 8); ">I</div>
+	<div id="letterJ" class="button" onclick="typeLetter('J')" style="left: calc(100% / 13 * 9); ">J</div>
+	<div id="letterK" class="button" onclick="typeLetter('K')" style="left: calc(100% / 13 * 10); ">K</div>
+	<div id="letterL" class="button" onclick="typeLetter('L')" style="left: calc(100% / 13 * 11); ">L</div>
+	<div id="letterM" class="button" onclick="typeLetter('M')" style="left: calc(100% / 13 * 12); ">M</div>
+	<div id="letterN" class="button" onclick="typeLetter('N')" style="left: calc(100% / 13 * 0); top:50px;">N</div>
+	<div id="letterO" class="button" onclick="typeLetter('O')" style="left: calc(100% / 13 * 1); top:50px;">O</div>
+	<div id="letterP" class="button" onclick="typeLetter('P')" style="left: calc(100% / 13 * 2); top:50px;">P</div>
+	<div id="letterQ" class="button" onclick="typeLetter('Q')" style="left: calc(100% / 13 * 3); top:50px;">Q</div>
+	<div id="letterR" class="button" onclick="typeLetter('R')" style="left: calc(100% / 13 * 4); top:50px;">R</div>
+	<div id="letterS" class="button" onclick="typeLetter('S')" style="left: calc(100% / 13 * 5); top:50px;">S</div>
+	<div id="letterT" class="button" onclick="typeLetter('T')" style="left: calc(100% / 13 * 6); top:50px;">T</div>
+	<div id="letterU" class="button" onclick="typeLetter('U')" style="left: calc(100% / 13 * 7); top:50px;">U</div>
+	<div id="letterV" class="button" onclick="typeLetter('V')" style="left: calc(100% / 13 * 8); top:50px;">V</div>
+	<div id="letterW" class="button" onclick="typeLetter('W')" style="left: calc(100% / 13 * 9); top:50px;">W</div>
+	<div id="letterX" class="button" onclick="typeLetter('X')" style="left: calc(100% / 13 * 10); top:50px;">X</div>
+	<div id="letterY" class="button" onclick="typeLetter('Y')" style="left: calc(100% / 13 * 11); top:50px;">Y</div>
+	<div id="letterZ" class="button" onclick="typeLetter('Z')" style="left: calc(100% / 13 * 12); top:50px;">Z</div>
+</div>
+
+<div id="gamePlayers" class="right">
+	<center><div class="bottomBorder">
+	<div id="hits">Hits: 0</div>
+	<div id="misses"> Misses: 0</div></div><div class="bottomBorder">
+	<div id="games">Games: 0</div></div>
+	<div class="bottomBorder">
+	<img src="SwegL.png" style="position: relative; display:inline; width: 90%; height: auto;"></div>
+	</center>
+</div>
+
+<div id="loadScreen" class="popup" style="visibility: hidden">
+	<div class="popCenter">
+		<input type="file" id="files" name="files[]" style="height:30px"><br>
+	</div>
+	<div class="popBottom">
+		<button onclick="loadOpened(false)">CLOSE</button> 
+	</div>
+</div>
+
+<script src="gallowGame.js"></script>
+</body>
+</html>

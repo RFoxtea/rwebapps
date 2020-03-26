@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html ng-app="siteList">
+	<head>
+		<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+		<meta content="utf-8" http-equiv="encoding">
+		<title>Internet Thingies</title>
+		<link rel="stylesheet" type="text/css" href="stylesheet.css">
+		<script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+		<script src="angular.min.js"></script>
+	</head>
+	<body>
+		<div class="title"><span onclick="nextText(this, ['Internet Thingies', 'Internet Dingskes'])">Internet Thingies</span></div>
+		<div class="subtitle">They are free!</div>
+		
+		<div class="center">
+		<span id="listHtml" ng-controller="siteListCtrl">
+		<div class="pageGroup" ng-repeat="group in sitelist">
+			<div class="pageGroupTitle">{{group.name}}</div>
+			<div class="outerLink" ng-repeat="link in group.sites"> <a hoverable-link id="{{link.name}}" class="linkPic" style="background-image: url('icons/{{link.pic}}'); cursor:pointer;" href="{{link.url}}" title="{{link.hover}}"> <div style="bottom: -50px;" class="linkName">{{link.name}}</div> </a> </div>
+		</div>
+		</span>
+		</div>
+		
+		<script src="mainScript.js"></script>
+	</body>
+</html>

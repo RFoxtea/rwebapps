@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<!ATTLIST tag grid CDATA #IMPLIED>
+<html>
+<head>
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
+<title>WOORDZOEKER</title>
+<link rel="stylesheet" type="text/css" href="wordStyle.css">
+<script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+</head>
+<body>
+
+<!-- the top menu -->
+<div class="topMenuLeft">
+	<button onclick="openPop('#loadScreen')" class="button" style="width:166px; left:0px;">CUSTOM MODE
+	</button><button onclick="serverTrigger('woorden.txt', 12)" class="button" style="left:166px;">DELUXE MODE
+	</button><button onclick="serverTrigger('words.txt', 24)" class="button" style="left:333px;">CLASSIC MODE</button>
+</div>
+
+<div class="topMenuCent"><button id="startGame" onclick="emptyTrigger()" class="start">NEW GAME</button></div>
+
+<div class="topMenuRight">
+	<button onclick="setOpen()" class="button" style="right:333px;">SETTINGS
+	</button><button onclick="openPop('#instScreen')" class="button" style="right:166px;">INSTRUCTIONS
+	</button><button onclick="" class="button" style="width:166px; right:0px;" disabled>EXPORT GAME
+	</button>
+</div>
+
+<!-- the game grid -->
+<div id="gridFull" class="topCenter" style="font-size:54px;">
+</div>
+
+<canvas id="lineCanvas" width="1200" height="600" class="topCenter"></canvas>
+
+<!-- the word grid -->
+<div class="bottomCenterOut">
+<div id="wordGrid" class="bottomCenterIn">
+</div>
+</div>
+
+<!-- the setting screens -->
+<div id="overlayMenu" class="topCenter" style="pointer-events: none;">
+	<div id="loadScreen" class="popup" style="opacity:0;" hidden>
+		<div class="popCenter">
+			<input type="file" id="files" name="files[]" style="height:30px;"><br>
+		</div>
+	</div>
+	<div id="setScreen" class="popup" style="height:150px; opacity:0;" hidden>
+		<div class="popBInput">
+			<p><input type="text" id="words" value="" class="popInput"></p>
+			<p><input type="text" id="height" value="" class="popInput"></p>
+			<p><input type="text" id="width" value="" class="popInput"></p>
+			<p><input type="text" id="font" value="" class="popInput"></p>
+		</div>
+		<div class="popBText">
+			<p>Words: </p>
+			<p>Height: </p>
+			<p>Width: </p>
+			<p>Font size: </p>
+		</div>
+		<button onclick="loadSettings();" class="popBottom">OK</button>
+	</div>
+	<div id="instScreen" class="popupInst" style="opacity:0;" hidden>
+		<div class="instructions">
+			<div id="inst00" class="instPage">
+				<p style="font-size: 64px;"><b>WOORDZOEKER</b></p>
+				<p>by <a href="..">Raf Vosté</a></p><br>
+				<p>Welcome to <b>WOORDZOEKER</b>, the most amazing game in existance.</p><br>
+				<p>This game was made using <b>Javascript</b> and <b>HTML5</b>.</p><br>
+				<p>If you are using <b>Internet Explorer</b>, the game isn't going to work properly, sorry for that.</p>
+				<p>You could always try a real browser, like <b><a href="https://www.mozilla.org/firefox/">Firefox</a></b> or <b><a href="https://www.google.com/chrome/">Google Chrome</a></b>.</p><br>
+				<p>Also, if you like dumb little games, try <a href="https://googledrive.com/host/0BzjU6a5yMOMgb3ltVjUtd0JiTU0/">Galgje!</a>, the first game I developed.</p><br>
+				<p style="color: #666666"><i>Click the grey arrow to continue.</i></p>
+				<p style="color: #666666"><i>Click anywhere outside of this screen to close it.</i></p>
+			</div>
+			<div id="inst01" class="instPage">
+				<p style="font-size: 32px;"><b>How to play</b></p><br>
+				<p><b>WOORDZOEKER</b> is a word search game.</p> 
+				<p>This means you have to find a set of given words in a seemingly random grid.</p><br>
+				<p>The <b>hidden words</b> are listed in a table under the game.</p><br>
+				<p>If you find one of the words, you have to mark it.</p>
+				<p>To mark a word, click on the <b>first letter</b> of the word, drag your mouse over the word, and let go.</p><br>
+				<p>When you finish your game, you can play again by pressing <b>NEW GAME</b> or selecting another game mode.</p>
+			</div>
+			<div id="inst02" class="instPage">
+				<p style="font-size: 32px;"><b>Game modes</b></p><br>
+				<p>The game has two <b>word lists</b> and the option to use a <b>custom word list</b>.</p>
+				<p><b>Classic mode</b> uses a set of <b>Dutch words</b> I came up with myself.</p>
+				<p><b>Deluxe mode</b> uses a set of <b>362790 Dutch words</b> found in <b><a href="http://invokeit.wordpress.com/frequency-word-lists/">free subtitles</a></b>.</p><br>
+				<p>With <b>custom mode</b> you can use your own word lists.</p>
+				<p>To do this you put the words in a <b>.txt</b> file with <b>one word per line</b>.</p>
+				<p>Only use <u title="i.e. the alphabet">plain letters</u> in your file, any other characters will be ignored.</p><br>
+			</div>
+			<div id="inst03" class="instPage">
+				<p style="font-size: 32px;"><b>Settings</b></p><br>
+				<p>In the <b>settings</b> you can customise your game even further.</p>
+				<p>There are three variables you can change in the settings:</p><br>
+				<p><b>Words</b> changes the amount of words the game will try to put in the puzzle.</p>
+				<p><b>Height</b> changes the amount of rows used in the game.</p>
+				<p><b>Width</b> changes the amount of columns used in the game.</p>
+				<p><b>Font size</b> changes the size of the letters in the grid.</p><br>
+				<p style="color:red; font-size:20px;"><b><u>WARNING</u></b></p>
+				<p>Too many words and the game will crash.</p>
+				<p>To prevent this, remember to <b>increase the size of the grid</b> as you increase the amount of words.
+			</div>
+			<div id="inst04" class="instPage">
+				<p style="font-size: 32px;"><b>Importing and exporting games</b></p><br>
+				<p>Coming soon...</p>
+			</div>
+		</div>
+		<img id="arrUp" src="arrowUp.svg" class="arrowUp" style="opacity:0;"/>
+		<img id="arrDown" src="arrowDown.svg" class="arrowDown" style="opacity:0;"/>
+	</div>
+</div>
+
+<!-- initialise scripts -->
+<script src="grid.js"></script>
+<script src="wordSearch.js"></script>
+</body>
+</html>

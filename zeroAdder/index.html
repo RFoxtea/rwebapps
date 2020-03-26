@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
+<title>Raf's shitty converter!</title>
+<style type="text/css">
+
+body {background-color:black; color:yellow;}
+
+a {
+    color: #FF0000;
+}
+
+</style>
+</head>
+<body>
+<button type="button" onclick="changeButton('lengte')">Length</button>
+<button type="button" onclick="changeButton('gewicht')">Mass</button>
+<center>
+<font size="6"><b>THE AMAZING</b></font> <br>
+<font size="8"><b>ZERO ADDER</b></font> <br>
+<font size="4">by <a href="..">Raf Vosté</a></font> <br> <br> <br> <br>
+<input type="text" id="omzetten"> <select id="van"></select>
+to
+<select id="naar"></select>
+<font size="4"><b><p id="demo"></p></b></font> 
+<button type="button" onclick="doehet()">GO</button>
+</center>
+<script>
+var voorvoeg=new Array();
+
+function voorvoegsel(sName,lName,factor,mName)
+{
+this.factor=factor;
+this.sName=sName;
+this.lName=lName;
+this.mName=mName;
+}
+
+function changeButton(eenheid) {
+voorvoeg = [];
+document.getElementById("van").options.length = 0;
+document.getElementById("naar").options.length = 0;
+var scroll=document.getElementById("van");
+if (eenheid == "lengte") {
+voorvoeg.push(new voorvoegsel("Em","exametre",1000000000000000000));
+voorvoeg.push(new voorvoegsel("Pm","petametre",1000000000000000));
+voorvoeg.push(new voorvoegsel("Tm","terrametre",1000000000000));
+voorvoeg.push(new voorvoegsel("Gm","gigametre",1000000000));
+voorvoeg.push(new voorvoegsel("Mm","megametre",1000000));
+voorvoeg.push(new voorvoegsel("km","kilometre",1000));
+voorvoeg.push(new voorvoegsel("hm","hectometre",100));
+voorvoeg.push(new voorvoegsel("dam","decametre",10));
+voorvoeg.push(new voorvoegsel("m","metre",1));
+voorvoeg.push(new voorvoegsel("dm","decimetre",0.1));
+voorvoeg.push(new voorvoegsel("cm","centimetre",0.01));
+voorvoeg.push(new voorvoegsel("mm","millimetre",0.001));
+voorvoeg.push(new voorvoegsel("\u03BCm","micrometre",0.000001));
+voorvoeg.push(new voorvoegsel("nm","nanometre",0.000000001));
+voorvoeg.push(new voorvoegsel("pm","picometre",0.000000000001));
+voorvoeg.push(new voorvoegsel("fm","femtometre",0.000000000000001));
+voorvoeg.push(new voorvoegsel("am","attometre",0.000000000000000001));
+voorvoeg.push(new voorvoegsel("------"));
+voorvoeg.push(new voorvoegsel("mi","mile",1609.344));
+voorvoeg.push(new voorvoegsel("yd","yard",0.9144));
+voorvoeg.push(new voorvoegsel("ft","foot",0.3048,"feet"));
+voorvoeg.push(new voorvoegsel("in","inch",0.0254,"inches"));
+} else if (eenheid == "gewicht") {
+voorvoeg.push(new voorvoegsel("Eg","exagram",1000000000000000000));
+voorvoeg.push(new voorvoegsel("Pg","petagram",1000000000000000));
+voorvoeg.push(new voorvoegsel("Tg","terragram",1000000000000));
+voorvoeg.push(new voorvoegsel("Gg","gigagram",1000000000));
+voorvoeg.push(new voorvoegsel("Mg","megagram",1000000));
+voorvoeg.push(new voorvoegsel("kg","kilogram",1000));
+voorvoeg.push(new voorvoegsel("hg","hectogram",100));
+voorvoeg.push(new voorvoegsel("dag","decagram",10));
+voorvoeg.push(new voorvoegsel("g","gram",1));
+voorvoeg.push(new voorvoegsel("dg","decigram",0.1));
+voorvoeg.push(new voorvoegsel("cg","centigram",0.01));
+voorvoeg.push(new voorvoegsel("mg","milligram",0.001));
+voorvoeg.push(new voorvoegsel("\u03BCg","microgram",0.000001));
+voorvoeg.push(new voorvoegsel("ng","nanogram",0.000000001));
+voorvoeg.push(new voorvoegsel("pg","picogram",0.000000000001));
+voorvoeg.push(new voorvoegsel("fg","femtogram",0.000000000000001));
+voorvoeg.push(new voorvoegsel("ag","attogram",0.000000000000000001));
+}
+
+var scroll=document.getElementById("van");
+for(var i=0;i<voorvoeg.length;i++) {
+var option=document.createElement("option");
+option.text=voorvoeg[i].sName;
+try
+  {
+  // for IE earlier than version 8
+  scroll.add(option,scroll.options[null]);
+  }
+catch (e)
+  {
+  scroll.add(option,null);
+  }
+if (voorvoeg[i].sName == "------") {document.getElementById("van").options[i].disabled=true;}
+}
+
+var scroll=document.getElementById("naar");
+for(var i=0;i<voorvoeg.length;i++) {
+var option=document.createElement("option");
+option.text=voorvoeg[i].sName;
+try
+  {
+  // for IE earlier than version 8
+  scroll.add(option,scroll.options[null]);
+  }
+catch (e)
+  {
+  scroll.add(option,null);
+  }
+if (voorvoeg[i].sName == "------") {document.getElementById("naar").options[i].disabled=true;}
+}
+
+for(var i=0;i<voorvoeg.length;i++) {
+	if (voorvoeg[i].factor === 1) {
+	document.getElementById("van").selectedIndex = i;
+	document.getElementById("naar").selectedIndex = i;
+	break;
+}
+}
+}
+
+changeButton("lengte");
+
+function doehet()
+{
+	var numIn = document.getElementById("omzetten").value;
+	var vanIndex = document.getElementById("van").selectedIndex;
+	var naarIndex = document.getElementById("naar").selectedIndex;
+	var vanFactor = voorvoeg[vanIndex].factor;
+	var naarFactor = voorvoeg[naarIndex].factor;
+	var numOut = numIn * vanFactor / naarFactor;
+	document.getElementById("demo").innerHTML = numOut + " ";
+	if (voorvoeg[naarIndex].mName != undefined && numOut != 1) {document.getElementById("demo").innerHTML += voorvoeg[naarIndex].mName} 
+	else if (numOut == 1) {document.getElementById("demo").innerHTML += voorvoeg[naarIndex].lName}
+	else {document.getElementById("demo").innerHTML += voorvoeg[naarIndex].lName + "s"}
+}
+
+</script>
+
+<div style="position: absolute; bottom: 0px;">It's also a point mover and metric to imperial converter, but whatever...</div> 
+
+</body>
+</html>
