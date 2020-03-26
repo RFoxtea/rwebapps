@@ -5,13 +5,13 @@
             {
                 "name": "GALGJE!",
                 "pic": "galgje.png",
-                "url": "galgje/index.html",
+                "url": "/galgje/index.html",
                 "hover": "Galgje is dutch for hangman! Click here to click this classic (but kinda grim) game."
             },
             {
                 "name": "WOORDZOEKER",
                 "pic": "wordSearch.png",
-                "url": "wordSearch/index.html",
+                "url": "/wordSearch/index.html",
                 "hover": "Woordzoeker is dutch for word search! Find the words in a grid of seemingly random characters."
             }
         ]
@@ -22,13 +22,13 @@
             {
                 "name": "MOLAR MASS",
                 "pic": "chemWrit.png",
-                "url": "chemWrit/index.html",
+                "url": "/chemWrit/index.html",
                 "hover": "A tool for everyone sick of manually having to look up the molar mass of chemical formulas! Certainly useful for every chemistry student or nerd."
             },
             {
                 "name": "ZERO ADDER",
                 "pic": "zeroAdder.png",
-                "url": "zeroAdder/index.html",
+                "url": "/zeroAdder/index.html",
                 "hover": "This is a tool for conversion between SI prefixes, as well as between imperial and metric units. My first creation with very limited uses, but I still love it."
             }
         ]
